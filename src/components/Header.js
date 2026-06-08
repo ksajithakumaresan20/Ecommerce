@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+
 export default function Header({ handleLogout, cart }) {
 
   const navigate = useNavigate();
@@ -42,6 +43,9 @@ export default function Header({ handleLogout, cart }) {
           >
             Logout
           </button>
+          <button onClick={() => navigate("/wishlist")}>
+  Wishlist
+</button>
 
         </div>
 

@@ -1,232 +1,88 @@
-import React, { useState } from "react";
-import { getsingleproduct } from "../services/ProductService";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 function ProductCard({
   products = [],
   cart = [],
-  setCart
+  setCart,
+  wishlist = [],
+  setWishlist
 }) {
-  const [selectedProduct, setSelectedProduct] =
-    useState(null);
+  const navigate = useNavigate();
 
-  const [showCart, setShowCart] =
-    useState(false);
+  // ❤️ TOGGLE WISHLIST
+  const toggleWishlist = (item) => {
+    const exists = wishlist.find((p) => p.id === item.id);
 
-  const showdetails = async (item) => {
-    try {
-      const data =
-        await getsingleproduct(item.id);
-
-      setSelectedProduct(data);
-
-    } catch (error) {
-      console.log(error);
+    if (exists) {
+      // remove
+      setWishlist(wishlist.filter((p) => p.id !== item.id));
+    } else {
+      // add
+      setWishlist([...wishlist, item]);
     }
   };
 
   const addToCart = (item) => {
-    console.log("Cart:", cart);
-  console.log("setCart:", setCart);
-   
-  alert(typeof serCart);
+    const exists = cart.find((p) => p.id === item.id);
 
-    const exists = cart?.find(
-      (product) => product.id === item.id
-    );
-
-    if (exists) {
-      alert("Already Added");
-      return;
+    if (!exists) {
+      setCart([...cart, item]);
     }
 
-    setCart((prevCart) => [...prevCart, item]);
-
-    alert("Added To Cart");
+    navigate("/cart");
   };
 
   return (
-    <div className="container">
+    <div className="products">
+      {products.map((item) => {
+        const isLiked = wishlist.find((p) => p.id === item.id);
 
-      <div className="products">
+        return (
+          <div key={item.id} className="card">
 
-        {products?.map((item) => (
-
-          <div
-            className="card"
-            key={item.id}
-          >
-
-            <img
-              src={item.image}
-              alt={item.name}
-              onClick={() =>
-                showdetails(item)
-              }
-            />
-
-            <h3>{item.name}</h3>
-
-            <p className="price">
-              ₹{item.price}
-            </p>
-
-            {item.inStock ? (
-
-              <p className="text-success">
-                ✅ Available
-              </p>
-
-            ) : (
-
-               <p className="text-success">
-  ✅ Available
-</p>
-            )}
-
-            <button
-              onClick={() =>
-                addToCart(item)
-              }
+            {/* ❤️ HEART ICON (TOP RIGHT) */}
+            <div
+              style={{
+                position: "relative"
+              }}
             >
-              🛒 Add To Cart
-            </button>
-
-          </div>
-
-        ))}
-
-      </div>
-
-      {showCart && (
-
-        <div className="cart-box">
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent:
-                "space-between",
-              marginBottom: "15px"
-            }}
-          >
-
-            <h2>🛒 Cart</h2>
-
-            <button
-              className="close-btn"
-              onClick={() =>
-                setShowCart(false)
-              }
-            >
-              X
-            </button>
-
-          </div>
-
-          {cart.length === 0 ? (
-
-            <p>No Items Added</p>
-
-          ) : (
-
-            cart.map((item, index) => (
 
               <div
-                key={index}
-                className="cart-item"
+                onClick={() => toggleWishlist(item)}
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  cursor: "pointer",
+                  fontSize: "20px"
+                }}
               >
-
-                <img
-                  src={item.image}
-                  alt={item.name}
-                />
-
-                <div>
-                  <h4>{item.name}</h4>
-
-                  <p className="price">
-                    ₹{item.price}
-                  </p>
-                </div>
-
+                {isLiked ? (
+                  <FaHeart color="red" />
+                ) : (
+                  <FaRegHeart />
+                )}
               </div>
 
-            ))
-          )}
+              {/* PRODUCT CLICK */}
+              <div onClick={() => navigate(`/product/${item.id}`)}>
+                <img src={item.image} alt={item.title} />
+                <h3>{item.title}</h3>
+                <p>₹{item.price}</p>
+              </div>
 
-        </div>
+            </div>
 
-      )}
-
-      {selectedProduct && (
-
-        <div className="details-overlay">
-
-          <div className="details-box">
-
-            <button
-              className="close-btn"
-              onClick={() =>
-                setSelectedProduct(null)
-              }
-            >
-              X
-            </button>
-
-            <img
-              src={selectedProduct.image}
-              alt={selectedProduct.name}
-            />
-
-            <h2>
-              {selectedProduct.name}
-            </h2>
-
-            <p className="details-price">
-              ₹{selectedProduct.price}
-            </p>
-
-            <h4>
-              {selectedProduct.category}
-            </h4>
-
-            <p>
-              {selectedProduct.description}
-            </p>
-
-            {selectedProduct.inStock ? (
-
-              <p className="text-success">
-                ✅ In Stock
-              </p>
-
-            ) : (
-
-              <p className="text-danger">
-                ❌ Out Of Stock
-              </p>
-
-            )}
-
-            <button
-              onClick={() =>
-                addToCart(
-                  selectedProduct
-                )
-              }
-              disabled={
-                !selectedProduct.inStock
-              }
-            >
+            {/* CART BUTTON */}
+            <button onClick={() => addToCart(item)}>
               🛒 Add To Cart
             </button>
 
           </div>
-
-        </div>
-
-      )}
-
+        );
+      })}
     </div>
   );
 }

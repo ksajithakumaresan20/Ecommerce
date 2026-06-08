@@ -23,22 +23,13 @@ function Login() {
         {
           username,
           password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
         }
       );
 
-      console.log("LOGIN SUCCESS", response.data);
-
-      // token save
       localStorage.setItem("token", response.data.token);
 
-      // ✅ IMPORTANT FIX
       navigate("/home");
-
     } catch (error) {
-      console.log(error);
       setError("Invalid Username or Password");
     } finally {
       setLoading(false);
@@ -55,6 +46,7 @@ function Login() {
           placeholder="Enter Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
 
         <input
@@ -62,11 +54,12 @@ function Login() {
           placeholder="Enter Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
 
         {error && <p className="error">{error}</p>}
 
-        <button type="submit">
+        <button type="submit" disabled={loading}>
           {loading ? "Loading..." : "Login"}
         </button>
 

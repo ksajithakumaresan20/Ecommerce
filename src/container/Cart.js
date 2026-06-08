@@ -1,65 +1,23 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
-export default function Cart({ cart }) {
-
-  const navigate = useNavigate();
-
+function Cart({ cart }) {
   return (
-    <div style={{ padding: "20px" }}>
-
-      <h1>Cart Page 🛒</h1>
+    <div>
+      <h2>My Cart</h2>
 
       {cart.length === 0 ? (
-        <h3>Your Cart is Empty</h3>
+        <p>Cart is empty</p>
       ) : (
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
-        >
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              style={{
-                border: "1px solid #ddd",
-                borderRadius: "10px",
-                padding: "15px",
-                width: "250px",
-                background: "#fff",
-              }}
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                style={{
-                  width: "100%",
-                  height: "200px",
-                  objectFit: "contain",
-                }}
-              />
-
-              <h3>{item.title}</h3>
-
-              <p>₹{item.price}</p>
-            </div>
-          ))}
-        </div>
+        cart.map((item) => (
+          <div key={item.id}>
+            <img src={item.image} width="100" />
+            <h3>{item.title}</h3>
+            <p>₹{item.price}</p>
+          </div>
+        ))
       )}
-
-      <button
-        onClick={() => navigate("/home")}
-        style={{
-          marginTop: "20px",
-          padding: "10px 20px",
-          cursor: "pointer",
-        }}
-      >
-        Back To Home
-      </button>
-
     </div>
   );
 }
+
+export default Cart;

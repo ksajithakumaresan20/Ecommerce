@@ -1,6 +1,6 @@
 import React from "react";
 
-import { BrowserRouter,Routes, Route} from "react-router-dom";
+import { HashRouter,Routes, Route} from "react-router-dom";
 
 import Login from "../pages/Login";
 import Home from "../container/Home";
@@ -10,7 +10,7 @@ export default function Router() {
 
   return (
 
-    <BrowserRouter>
+    <HashRouter>
 
       <Routes>
 <Route path="/" element={<Login />} />
@@ -19,7 +19,7 @@ export default function Router() {
 
       </Routes>
 
-    </BrowserRouter>
+    </HashRouter>
 
   );
 

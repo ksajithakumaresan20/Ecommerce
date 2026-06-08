@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import { getProducts,getSingloroducts } from "../services/productService";
+import { getProducts } from "../services/productService";
 
 function Products() {
   const [products, setProducts] = useState([]);
-  console.log(products,"products");
-  const[loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchProducts();
@@ -21,41 +20,15 @@ function Products() {
     }
   };
 
-  useEffect(() => {
-    fetchsinglProducts();
-  },[]);
-
-  const fetchsinglProducts = async  (id) => {
-    try{
-      const data =await getSingloroducts(id);
-      console.log(data,"SINGLE PRODUCT");
-      console.log(`https://fackstoreapi.com/products/${id}`);
-      setsinglproducts(data);
-    }catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  
-
   if (loading) {
-    return <h2><LoaderIcon height="6em" /></h2>;
+    return <h2>Loading...</h2>;
   }
 
   return (
     <div className="p-5 grid grid-cols-4 gap-4">
       {products.map((product) => (
-        <div
-          key={product.id}
-          className="border rounded-xl p-3 shadow-sm"                             
-        >
-          return (
-  <div>
-    <ProductCard products={products} />
-    onClick={() => showdetails(item)}
-  </div>
-);
+        <div key={product.id} className="border rounded-xl p-3 shadow-sm">
+
           <img
             src={product.thumbnail}
             alt={product.title}
@@ -69,8 +42,11 @@ function Products() {
           <p className="text-sm text-gray-500">
             ${product.price}
           </p>
+
         </div>
       ))}
     </div>
   );
 }
+
+export default Products;

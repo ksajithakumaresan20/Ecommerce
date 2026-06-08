@@ -1,60 +1,42 @@
-import React, { useState ,useEffect} from "react";
-import Header from '../components/Header';
-
-import ProductCard from '../components/ProductCard';
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/ProductService";
-// import LoaderIcon from "@iconify-react/codex/loader";
+import ProductCard from "../components/ProductCard";
+import SkeletonGrid from "../components/SkeletonGrid";
 
-function Home({ cart, setCart }) {
-  const [loading,setLoading]=useState(false);
-  const [products,setProducts]=useState([]);
-  const navigate = useNavigate();
-  console.log(products,"products state");
-  console.log(loading,"loading state");
-
+function Home({ cart, setCart, wishlist, setWishlist }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      try {
-        const products = await getProducts();
-        console.log(products, "fetched products");
-        setProducts(products);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProducts();
   }, []);
-  const handleLogout =() => {
-      localStorage.removeItem("token");
-      console.log("REMOVE");
-      navigate("/");
+
+  const fetchProducts = async () => {
+    setLoading(true);
+
+    try {
+      const data = await getProducts();
+      setProducts(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
- 
 
   return (
-
     <div>
-
-      {/* HEADER */}
-
-      <Header handleLogout={handleLogout} />
-
-      {/* CART BUTTON */}
-
-
-      {/* PRODUCT CARD */}
-
-      <ProductCard
-        products={products}
-        cart={cart}
-        setCart={setCart}
-      />
-
+      {loading ? (
+        <SkeletonGrid />
+      ) : (
+        <ProductCard
+          products={products}
+          cart={cart}
+          setCart={setCart}
+          wishlist={wishlist}
+          setWishlist={setWishlist}
+        />
+      )}
     </div>
   );
 }
