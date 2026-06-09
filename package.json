@@ -4,6 +4,7 @@
   "homepage": "https://ksajithakumaresan20.github.io/Ecommerce",
   "private": true,
   "dependencies": {
+    "@iconify/react": "^6.0.2",
     "@reduxjs/toolkit": "^2.12.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

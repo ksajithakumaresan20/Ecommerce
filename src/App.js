@@ -12,15 +12,33 @@ function App() {
   const [cart, setCart] = useState([]);
   const [wishlist, setWishlist] = useState([]);
 
+  const addToCart = (product) => {
+    const exists = cart.find(
+      (item) => item.id === product.id
+    );
+
+    if (exists) {
+      alert("Already Added To Cart");
+      return;
+    }
+
+    setCart([...cart, product]);
+    alert("Added To Cart");
+  };
+
   return (
     <HashRouter>
-
-      {/* ✅ HEADER ALWAYS VISIBLE */}
-      <Header cart={cart} wishlist={wishlist} />
+      {/* Header */}
+      <Header
+        cart={cart}
+        wishlist={wishlist}
+      />
 
       <Routes>
-
-        <Route path="/" element={<Login />} />
+        <Route
+          path="/"
+          element={<Login />}
+        />
 
         <Route
           path="/home"
@@ -35,8 +53,21 @@ function App() {
         />
 
         <Route
+          path="/product/:id"
+          element={
+            <ProductDetails
+              addToCart={addToCart}
+            />
+          }
+        />
+
+        <Route
           path="/cart"
-          element={<Cart cart={cart} />}
+          element={
+            <Cart
+              cart={cart}
+            />
+          }
         />
 
         <Route
@@ -48,14 +79,7 @@ function App() {
             />
           }
         />
-
-        <Route
-          path="/product/:id"
-          element={<ProductDetails />}
-        />
-
       </Routes>
-
     </HashRouter>
   );
 }

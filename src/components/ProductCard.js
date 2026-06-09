@@ -70,15 +70,13 @@ function ProductCard({
               <div onClick={() => navigate(`/product/${item.id}`)}>
                 <img src={item.image} alt={item.title} />
                 <h3>{item.title}</h3>
+                
                 <p>₹{item.price}</p>
               </div>
 
             </div>
 
-            {/* CART BUTTON */}
-            <button onClick={() => addToCart(item)}>
-              🛒 Add To Cart
-            </button>
+   
 
           </div>
         );
