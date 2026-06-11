@@ -1,24 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getsingleproduct } from "../services/ProductService";
+import LoadingTwotoneLoopIcon from "@iconify-react/line-md/loading-twotone-loop";
 
 function ProductDetail({ addToCart }) {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    fetchProduct();
-  }, []);
+  fetchProduct();
+}, [id]);
 
   const fetchProduct = async () => {
-    const data = await getsingleproduct(id);
-    setProduct(data);
+    try {
+      const data = await getsingleproduct(id);
+      setProduct(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  if (!product) return <h2 className="text-center mt-5">Loading...</h2>;
+  // 🔥 Loading Icon
+  if (!product) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <LoadingTwotoneLoopIcon height="80" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-5">
+
+      {/* Back Button */}
+      <button
+        className="btn btn-secondary mb-4"
+        onClick={() => navigate(-1)}
+      >
+        ← Back
+      </button>
+
       <div className="row align-items-center">
 
         {/* Product Image */}
@@ -29,7 +59,7 @@ function ProductDetail({ addToCart }) {
             className="img-fluid rounded shadow"
             style={{
               maxHeight: "450px",
-              objectFit: "contain"
+              objectFit: "contain",
             }}
           />
         </div>
@@ -45,7 +75,7 @@ function ProductDetail({ addToCart }) {
           <p
             style={{
               fontSize: "16px",
-              lineHeight: "1.8"
+              lineHeight: "1.8",
             }}
           >
             {product.description}

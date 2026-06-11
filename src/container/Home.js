@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/ProductService";
 import ProductCard from "../components/ProductCard";
-import SkeletonGrid from "../components/SkeletonGrid";
+import LoadingTwotoneLoopIcon from "@iconify-react/line-md/loading-twotone-loop";
 
 function Home({ cart, setCart, wishlist, setWishlist }) {
   const [products, setProducts] = useState([]);
@@ -27,7 +27,16 @@ function Home({ cart, setCart, wishlist, setWishlist }) {
   return (
     <div>
       {loading ? (
-        <SkeletonGrid />
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "80vh",
+          }}
+        >
+          <LoadingTwotoneLoopIcon height="60" />
+        </div>
       ) : (
         <ProductCard
           products={products}

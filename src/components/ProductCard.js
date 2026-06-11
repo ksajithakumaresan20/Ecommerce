@@ -1,54 +1,35 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 
 function ProductCard({
   products = [],
-  cart = [],
-  setCart,
   wishlist = [],
   setWishlist
 }) {
   const navigate = useNavigate();
 
-  // ❤️ TOGGLE WISHLIST
+  // ❤️ WISHLIST TOGGLE
   const toggleWishlist = (item) => {
     const exists = wishlist.find((p) => p.id === item.id);
 
     if (exists) {
-      // remove
       setWishlist(wishlist.filter((p) => p.id !== item.id));
     } else {
-      // add
       setWishlist([...wishlist, item]);
     }
-  };
-
-  const addToCart = (item) => {
-    const exists = cart.find((p) => p.id === item.id);
-
-    if (!exists) {
-      setCart([...cart, item]);
-    }
-
-    navigate("/cart");
   };
 
   return (
     <div className="products">
       {products.map((item) => {
         const isLiked = wishlist.find((p) => p.id === item.id);
+        const rating = Number(item.rating) || 4.2;
 
         return (
           <div key={item.id} className="card">
-
-            {/* ❤️ HEART ICON (TOP RIGHT) */}
-            <div
-              style={{
-                position: "relative"
-              }}
-            >
-
+            {/* ❤️ HEART ICON */}
+            <div style={{ position: "relative" }}>
               <div
                 onClick={() => toggleWishlist(item)}
                 style={{
@@ -66,18 +47,34 @@ function ProductCard({
                 )}
               </div>
 
-              {/* PRODUCT CLICK */}
+              {/* PRODUCT AREA */}
               <div onClick={() => navigate(`/product/${item.id}`)}>
                 <img src={item.image} alt={item.title} />
+
                 <h3>{item.title}</h3>
-                
+
+                <div className="rating">
+                  <FaStar
+                    style={{
+                      color: "gold",
+                      fontSize: "14px"
+                    }}
+                  />
+
+                  <span
+                    style={{
+                      marginLeft: "5px",
+                      fontSize: "14px",
+                      color: "#111"
+                    }}
+                  >
+                    {rating}
+                  </span>
+                </div>
+
                 <p>₹{item.price}</p>
               </div>
-
             </div>
-
-   
-
           </div>
         );
       })}
