@@ -1,0 +1,139 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.admin-container{
+    display:flex;
+    min-height:100vh;
+    background:#f3f4f8;
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:250px;
+    background:#111827;
+    color:white;
+    padding:25px;
+}
+
+.sidebar h2{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar li{
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:8px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    transition:.3s;
+}
+
+.sidebar li:hover{
+    background:#1f2f56;
+}
+
+/* Main */
+
+.main-content{
+    flex:1;
+    padding:40px;
+}
+
+.main-content h1{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+/* Cards */
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card-box{
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    cursor:pointer;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card-box:hover{
+    transform:translateY(-5px);
+}
+
+.card-box h4{
+    color:#666;
+    margin-bottom:15px;
+}
+
+.card-box h2{
+    color:#111827;
+}
+
+/* Buttons */
+
+.quick-actions{
+    margin-top:50px;
+    display:flex;
+    gap:20px;
+}
+
+.quick-actions button{
+    padding:12px 25px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+
+.quick-actions button:hover{
+    background:#1d4ed8;
+}
+
+/* Responsive */
+
+@media(max-width:900px){
+
+.cards{
+grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+@media(max-width:600px){
+
+.admin-container{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.quick-actions{
+flex-direction:column;
+}
+
+}

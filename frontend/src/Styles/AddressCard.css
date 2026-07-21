@@ -1,0 +1,21 @@
+.address-card {
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.address-card:hover {
+  transform: translateY(-4px);
+}
+
+.address-card .badge {
+  font-size: 13px;
+}
+
+.address-card p {
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.address-card button {
+  min-width: 90px;
+}
