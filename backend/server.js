@@ -147,7 +147,9 @@ app.delete("/api/products/:id", async (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.json({
+    message: "Backend is running 🚀"
+  });
 });
 
 app.listen(PORT, () => {
