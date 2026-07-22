@@ -9,10 +9,14 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://ecommerce-1-cb7e.onrender.com",
+    origin: [
+      "http://localhost:3000",
+      "https://statuesque-boba-99c0ff.netlify.app",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
   })
 );
-
 app.use(express.json());
 app.use((req, res, next) => {
   console.log(req.method, req.url);
